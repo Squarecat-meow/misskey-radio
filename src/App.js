@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+
+import { Routes, Route, useLocation } from "react-router-dom";
+import ModalWindow from "./components/ModalWindow";
+import MainPage from "./pages/MainPage";
+import PrivatePage from "./pages/PrivatePage";
 
 function App() {
+  const location = useLocation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes key={location.pathname} location={location}>
+        <Route path="/" element={<ModalWindow />} />
+        <Route element={<PrivatePage />}>
+          <Route path="/mainpage" element={<MainPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
