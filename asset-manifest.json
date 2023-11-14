@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/misskey-radio/static/css/main.4a397e4f.css",
+    "main.js": "/misskey-radio/static/js/main.8ec77a85.js",
+    "service-worker.js": "/misskey-radio/service-worker.js",
+    "index.html": "/misskey-radio/index.html",
+    "main.4a397e4f.css.map": "/misskey-radio/static/css/main.4a397e4f.css.map",
+    "main.8ec77a85.js.map": "/misskey-radio/static/js/main.8ec77a85.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4a397e4f.css",
+    "static/js/main.8ec77a85.js"
+  ]
+}
