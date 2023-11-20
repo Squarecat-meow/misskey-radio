@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NoteComponent from "../components/NoteComponent";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { processingJSON } from "../functions/ProcessingJSON";
 const NoteList = () => {
   const dispatch = useDispatch();
   const noteData = useSelector((state) => state.misskey.note);
+  const [timeline, setTimeline] = useState("homeTimeline");
 
   const server = localStorage.getItem("server");
   const token = localStorage.getItem("token");
@@ -16,14 +17,18 @@ const NoteList = () => {
   const webSocketUrl = `wss://${server}/streaming?i=${token}`;
   const ws = new WebSocket(webSocketUrl);
 
+  const handleTLSelector = (e) => {
+    setTimeline(e.target.value);
+  };
+
   useEffect(() => {
     ws.onopen = () => {
-      console.log("connected to " + webSocketUrl);
+      console.log("connected to " + webSocketUrl + "in " + timeline);
       ws.send(
         JSON.stringify({
           type: "connect",
           body: {
-            channel: "homeTimeline",
+            channel: timeline,
             id: "3",
           },
         })
@@ -45,13 +50,20 @@ const NoteList = () => {
       console.log("clean up");
       ws.close();
     };
-  }, []);
+  });
 
   return (
-    <div className="w-2/4 flex flex-col-reverse">
-      {noteData.map((data) => (
-        <NoteComponent key={data.id} data={data} />
-      ))}
+    <div className="flex flex-col mt-2 items-center justify-center w-full">
+      <select name="timeline" id="timeline" onChange={handleTLSelector}>
+        <option value="homeTimeline">홈</option>
+        <option value="globalTimeline">연합</option>
+        <option value="hybridTimeline">소셜</option>
+      </select>
+      <div className="w-3/4 flex flex-col-reverse">
+        {noteData.map((data) => (
+          <NoteComponent key={data.id} data={data} />
+        ))}
+      </div>
     </div>
   );
 };
