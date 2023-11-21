@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { noteStore } from "../slices/MisskeySlice";
 
 import { processingJSON } from "../functions/ProcessingJSON";
+import ErrorModal from "../components/ErrorModal";
 
 const NoteList = () => {
   const dispatch = useDispatch();
   const noteData = useSelector((state) => state.misskey.note);
+
   const [timeline, setTimeline] = useState("homeTimeline");
+  const [error, setError] = useState(false);
 
   const server = localStorage.getItem("server");
   const token = localStorage.getItem("token");
@@ -39,10 +42,12 @@ const NoteList = () => {
     };
     ws.onerror = (error) => {
       console.log("connection failed with: " + error);
+      setError(true);
     };
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
       const finalData = processingJSON(data);
+      console.log(finalData);
       dispatch(noteStore(finalData));
     };
 
@@ -50,7 +55,7 @@ const NoteList = () => {
       console.log("clean up");
       ws.close();
     };
-  });
+  }, [webSocketUrl, timeline]);
 
   return (
     <div className="flex flex-col mt-2 items-center justify-center w-full">
@@ -59,11 +64,15 @@ const NoteList = () => {
         <option value="globalTimeline">연합</option>
         <option value="hybridTimeline">소셜</option>
       </select>
-      <div className="w-3/4 flex flex-col-reverse">
-        {noteData.map((data) => (
-          <NoteComponent key={data.id} data={data} />
-        ))}
-      </div>
+      {error ? (
+        <ErrorModal />
+      ) : (
+        <div className="w-3/4 flex flex-col-reverse">
+          {noteData.map((data) => (
+            <NoteComponent key={data.id} data={data} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
