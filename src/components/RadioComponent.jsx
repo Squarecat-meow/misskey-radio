@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import RadioSettingComponents from "./RadioSettingComponents";
+import { ProcessingRadio } from "../functions/ProcessingRadio";
 
 const RadioComponent = () => {
   const [playPause, setPlayPause] = useState(false);
@@ -12,20 +13,7 @@ const RadioComponent = () => {
   const pitch = useSelector((state) => state.setting.pitch);
   const volume = useSelector((state) => state.setting.volume);
 
-  let noteText;
-
-  if (note[note.length - 1]?.renote[0]) {
-    noteText = "리노트입니다. " + note[note.length - 1].renote[0]?.renoteText;
-  } else {
-    noteText = note[note.length - 1]?.text;
-  }
-
-  if (typeof noteText !== "undefined" && noteText.indexOf("https:") >= 0) {
-    const httpIndex = noteText.indexOf("http");
-    const httpSpaceIndex = noteText.indexOf(" ", httpIndex + 1);
-    const urlInNote = noteText.slice(httpIndex, httpSpaceIndex);
-    noteText = noteText.replace(urlInNote, ". 링크");
-  }
+  const noteText = ProcessingRadio(note);
 
   const synth = window.speechSynthesis;
   const utterThis = new SpeechSynthesisUtterance(noteText);
