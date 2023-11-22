@@ -4,6 +4,12 @@ export const processingJSON = (data) => {
   let renote = [];
   const id = data.body.body.id;
   const username = data.body.body.user.name;
+  let cw = "";
+  let replyUser = "";
+
+  if (data.body.body.cw !== null) {
+    cw = data.body.body.cw;
+  }
 
   if (data.body.body.renote) {
     renote.push({
@@ -12,12 +18,18 @@ export const processingJSON = (data) => {
     });
   }
 
+  if (data.body.body.reply) {
+    replyUser = data.body.body.reply.user.name;
+  }
+
   const noteData = {
     text: text,
     username: username,
     avatarUrl: avatarUrl,
     id: id,
     renote: renote,
+    cw: cw,
+    replyUser: replyUser,
   };
 
   return noteData;
