@@ -7,7 +7,7 @@ const NoteComponent = (props) => {
     <div className="border my-2 flex items-center">
       {props.data.renote[0] ? (
         <div>
-          <div className="relative w-16 h-16 flex justify-center items-center">
+          <div className="relative w-16 h-16 z-10 flex justify-center items-center">
             <img
               src={props.data.avatarUrl}
               alt="avatar"
@@ -36,7 +36,7 @@ const NoteComponent = (props) => {
               </span>
               <FaRetweet className="mx-2" />
               <span className="font-bold text-xs mb-2">
-                {props.data.renote[0].renoteUser.username}
+                {props.data.renote[0].renoteUser.name}
               </span>
             </div>
           ) : (
@@ -47,7 +47,13 @@ const NoteComponent = (props) => {
             </div>
           )}
         </div>
-        <span className=" break-all">{props.data.text}</span>
+        {props.data.cw !== "" ? (
+          <div>
+            <span className="break-all font-bold">{props.data.cw}</span>
+          </div>
+        ) : (
+          <span className=" break-all">{props.data.text}</span>
+        )}
         {props.data.renote[0] && (
           <div>
             <span className="w-[500px] text-cyan-700 break-all">

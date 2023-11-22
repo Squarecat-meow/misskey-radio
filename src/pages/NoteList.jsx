@@ -47,7 +47,6 @@ const NoteList = () => {
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
       const finalData = processingJSON(data);
-      console.log(finalData);
       dispatch(noteStore(finalData));
     };
 

@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 export const ProcessingRadio = (note) => {
+  const cw = useSelector((state) => state.readSetting.cw);
+
   let finalNote;
 
   if (note[note.length - 1]?.renote[0]) {
@@ -22,6 +26,14 @@ export const ProcessingRadio = (note) => {
       userInNote,
       `${note[Object.keys(note).length - 1].replyUser}님에 대한 답글입니다.`
     );
+  }
+
+  if (
+    typeof finalNote !== "undefined" &&
+    note[note.length - 1].cw !== "" &&
+    cw === false
+  ) {
+    finalNote = "컨텐츠 워닝이 걸린 노트입니다.";
   }
 
   return finalNote;
