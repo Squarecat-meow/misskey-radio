@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import RadioSettingComponents from "./RadioSettingComponents";
 import { ProcessingRadio } from "../functions/ProcessingRadio";
+import RadioSampleComponent from "./ElementComponents/RadioSampleComponent";
 
 const RadioComponent = () => {
   const [playPause, setPlayPause] = useState(false);
@@ -16,13 +17,14 @@ const RadioComponent = () => {
   const noteText = ProcessingRadio(note);
 
   const synth = window.speechSynthesis;
-  const utterThis = new SpeechSynthesisUtterance(noteText);
 
-  utterThis.rate = rate;
-  utterThis.pitch = pitch;
-  utterThis.volume = volume;
+  const startRead = (text) => {
+    const utterThis = new SpeechSynthesisUtterance(text);
 
-  const startRead = () => {
+    utterThis.rate = rate;
+    utterThis.pitch = pitch;
+    utterThis.volume = volume;
+
     synth.speak(utterThis);
 
     let r = setInterval(() => {
@@ -33,6 +35,10 @@ const RadioComponent = () => {
         synth.resume();
       }
     }, 14000);
+
+    utterThis.onerror = (e) => {
+      console.log(e.error);
+    };
   };
 
   const stopRead = () => {
@@ -41,24 +47,17 @@ const RadioComponent = () => {
 
   const toggleRead = () => {
     setPlayPause(!playPause);
-    switch (playPause) {
-      case true:
-        startRead();
-        break;
-
-      default:
-        stopRead();
-        break;
+    if (playPause === true) {
+      startRead();
+    } else {
+      stopRead();
     }
-  };
-
-  utterThis.onerror = (e) => {
-    console.log(e.error);
   };
 
   useEffect(() => {
     startRead(noteText);
-  });
+  }, [noteText]);
+
   return (
     <div className="flex items-center">
       <div onClick={toggleRead}>
@@ -70,6 +69,7 @@ const RadioComponent = () => {
       </div>
       <div>
         <RadioSettingComponents />
+        <RadioSampleComponent />
       </div>
     </div>
   );
