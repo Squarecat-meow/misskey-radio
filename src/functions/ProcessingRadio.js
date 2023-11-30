@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 
 export const ProcessingRadio = (note) => {
   const cw = useSelector((state) => state.readSetting.cw);
+  const length = useSelector((state) => state.readSetting.length);
 
   let finalNote;
 
@@ -34,6 +35,14 @@ export const ProcessingRadio = (note) => {
     cw === false
   ) {
     finalNote = "컨텐츠 워닝이 걸린 노트입니다.";
+  }
+
+  if (
+    typeof finalNote !== "undefined" &&
+    finalNote.length >= 140 &&
+    length === false
+  ) {
+    finalNote = "긴 노트입니다.";
   }
 
   return finalNote;
