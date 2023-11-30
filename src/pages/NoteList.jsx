@@ -24,9 +24,9 @@ const NoteList = () => {
     setTimeline(e.target.value);
   };
 
-  useEffect(() => {
+  const wsConnect = (timeline) => {
     ws.onopen = () => {
-      console.log("connected to " + webSocketUrl + "in " + timeline);
+      console.log("connected to " + webSocketUrl + " in " + timeline);
       ws.send(
         JSON.stringify({
           type: "connect",
@@ -37,8 +37,13 @@ const NoteList = () => {
         })
       );
     };
+
     ws.onclose = () => {
       console.log("disconnected from " + webSocketUrl);
+      console.log("attempt reconnect in 3 seconds");
+      setTimeout(() => {
+        wsConnect();
+      }, 3000);
     };
     ws.onerror = (error) => {
       console.log("connection failed with: " + error);
@@ -49,12 +54,16 @@ const NoteList = () => {
       const finalData = processingJSON(data);
       dispatch(noteStore(finalData));
     };
+  };
+
+  useEffect(() => {
+    wsConnect(timeline);
 
     return () => {
       console.log("clean up");
       ws.close();
     };
-  }, [webSocketUrl, timeline]);
+  }, [timeline]);
 
   return (
     <div className="flex flex-col mt-2 items-center justify-center w-full">
