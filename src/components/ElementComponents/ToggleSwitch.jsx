@@ -3,8 +3,8 @@ import React from "react";
 const ToggleSwitch = (props) => {
   return (
     <div
-      className={`transition flex items-center w-10 h-5 bg-slate-400 rounded-full ${
-        props.state && "bg-green-400"
+      className={`transition-colors flex items-center w-10 h-5 rounded-full ${
+        props.state ? "bg-green-400" : "bg-slate-400"
       }`}
     >
       <div
