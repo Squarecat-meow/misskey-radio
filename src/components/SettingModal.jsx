@@ -25,7 +25,7 @@ const SettingModal = () => {
     <div className="ml-2">
       <FaGear style={{ fontSize: "48px" }} onClick={() => setSetting(true)} />
       {setting && (
-        <div className="absolute top-0 left-0 z-20 w-screen h-screen flex items-center justify-center backdrop-blur-sm">
+        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-20 backdrop-blur-sm">
           <div className="w-96 h-[18rem] bg-slate-200 backdrop-blur-sm rounded-lg shadow-lg">
             <div className="flex flex-col">
               <div>

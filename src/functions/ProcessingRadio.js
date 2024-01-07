@@ -13,10 +13,10 @@ export const ProcessingRadio = (note) => {
   }
 
   if (typeof finalNote !== "undefined" && finalNote.indexOf("https:") >= 0) {
-    const httpIndex = finalNote.indexOf("http");
-    const httpSpaceIndex = finalNote.indexOf(" ", httpIndex + 1);
-    const urlInNote = finalNote.slice(httpIndex, httpSpaceIndex);
-    finalNote = finalNote.replace(urlInNote, ". 링크");
+    const re =
+      /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*))/gi;
+    const Regex = new RegExp(re);
+    finalNote = finalNote.replace(Regex, "링크");
   }
 
   if (typeof finalNote !== "undefined" && finalNote.indexOf("@") >= 0) {
@@ -34,7 +34,9 @@ export const ProcessingRadio = (note) => {
     note[note.length - 1].cw !== "" &&
     cw === false
   ) {
-    finalNote = "컨텐츠 워닝이 걸린 노트입니다.";
+    finalNote = `컨텐츠 워닝이 걸린 노트입니다. ${
+      note[Object.keys(note).length - 1].cw
+    }`;
   }
 
   if (

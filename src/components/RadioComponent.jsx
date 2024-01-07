@@ -9,6 +9,7 @@ import RadioSampleComponent from "./ElementComponents/RadioSampleComponent";
 const RadioComponent = () => {
   const [playPause, setPlayPause] = useState(false);
   const note = useSelector((state) => state.misskey.note);
+  const websocket = useSelector((state) => state.websocket);
 
   const rate = useSelector((state) => state.setting.rate);
   const pitch = useSelector((state) => state.setting.pitch);

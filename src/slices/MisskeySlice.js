@@ -16,6 +16,9 @@ export const misskeySlice = createSlice({
     },
     noteStore: (state, action) => {
       state.note = [...state.note, action.payload];
+      if (state.note.length > 8) {
+        state.note.shift();
+      }
     },
   },
 });

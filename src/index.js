@@ -5,18 +5,15 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-import { CookiesProvider } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <CookiesProvider>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </CookiesProvider>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

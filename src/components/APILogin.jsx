@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { useNavigate } from "react-router-dom";
-
 const APILogin = () => {
-  const navigate = useNavigate();
   const [server, setServer] = useState("");
 
   const sessionId = uuidv4();
 
   const authForm = `http://${server}/miauth/${sessionId}`;
+  const hostname = window.location.host;
+  const protocol = window.location.protocol;
 
   const handleServerChange = (e) => {
     setServer(e.target.value);
@@ -17,24 +16,12 @@ const APILogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    localStorage.setItem("server", server);
 
-    /*     window.open(
-      `${authForm}?name=Misskey-radio&callback=http://localhost:3000/misskey-radio-pages`,
+    window.open(
+      `${authForm}?name=Misskey-radio&callback=${protocol}//${hostname}/misskey-radio-pages/callbackpage`,
       "_self"
-    ); */
-
-    const token = await fetch(`/api/miauth/${sessionId}/check`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      console.log(res);
-      //localStorage.setItem("server", res.server);
-      //localStorage.setItem("token", res.token);
-    });
-
-    //navigate("/mainpage");
+    );
   };
 
   return (

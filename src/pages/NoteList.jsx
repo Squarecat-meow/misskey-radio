@@ -3,6 +3,7 @@ import NoteComponent from "../components/NoteComponent";
 
 import { useDispatch, useSelector } from "react-redux";
 import { noteStore } from "../slices/MisskeySlice";
+import { webSocketStore } from "../slices/WebSocketSlice";
 
 import { processingJSON } from "../functions/ProcessingJSON";
 import ErrorModal from "../components/ErrorModal";
@@ -18,15 +19,16 @@ const NoteList = () => {
   const token = localStorage.getItem("token");
 
   const webSocketUrl = `wss://${server}/streaming?i=${token}`;
-  const ws = new WebSocket(webSocketUrl);
 
   const handleTLSelector = (e) => {
     setTimeline(e.target.value);
   };
 
-  const wsConnect = (timeline) => {
+  useEffect(() => {
+    const ws = new WebSocket(webSocketUrl);
     ws.onopen = () => {
       console.log("connected to " + webSocketUrl + " in " + timeline);
+      dispatch(webSocketStore(true));
       ws.send(
         JSON.stringify({
           type: "connect",
@@ -40,10 +42,7 @@ const NoteList = () => {
 
     ws.onclose = () => {
       console.log("disconnected from " + webSocketUrl);
-      console.log("attempt reconnect in 3 seconds");
-      setTimeout(() => {
-        wsConnect();
-      }, 3000);
+      dispatch(webSocketStore(false));
     };
     ws.onerror = (error) => {
       console.log("connection failed with: " + error);
@@ -54,10 +53,6 @@ const NoteList = () => {
       const finalData = processingJSON(data);
       dispatch(noteStore(finalData));
     };
-  };
-
-  useEffect(() => {
-    wsConnect(timeline);
 
     return () => {
       console.log("clean up");

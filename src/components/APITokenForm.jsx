@@ -20,7 +20,7 @@ const APITokenForm = () => {
     e.preventDefault();
 
     localStorage.setItem("server", server);
-    localStorage.setItem("token", token);
+    //localStorage.setItem("token", token);
 
     navigate("/mainpage");
   };
@@ -42,7 +42,7 @@ const APITokenForm = () => {
         </div>
         <button
           type="submit"
-          className="px-3 py-2 rounded-lg bg-slate-500 hover:bg-slate-400 w-24"
+          className="px-3 py-2 rounded-lg bg-slate-400 hover:bg-slate-300 w-24"
         >
           확인
         </button>
