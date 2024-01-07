@@ -19,7 +19,7 @@ const APILogin = () => {
     localStorage.setItem("server", server);
 
     window.open(
-      `${authForm}?name=Misskey-radio&callback=${protocol}//${hostname}/misskey-radio-pages/callbackpage`,
+      `${authForm}?name=Misskey-radio&callback=${protocol}//${hostname}/misskey-radio-pages/callbackpage&permission=read:account`,
       "_self"
     );
   };
