@@ -2,12 +2,20 @@ import React, { useState } from "react";
 
 import { FaGear } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
+import { FaDoorOpen } from "react-icons/fa";
+
 import { useDispatch, useSelector } from "react-redux";
 import { cwStore, lengthStore } from "../slices/ReadSettingSlice";
+
+import { useNavigate } from "react-router-dom";
+
 import ToggleSwitch from "./ElementComponents/ToggleSwitch";
 
 const SettingModal = () => {
   const [setting, setSetting] = useState(false);
+
+  const navigate = useNavigate();
+
   const cw = useSelector((state) => state.readSetting.cw);
   const length = useSelector((state) => state.readSetting.length);
 
@@ -19,6 +27,11 @@ const SettingModal = () => {
 
   const handleLengthSetting = () => {
     dispatch(lengthStore(!length));
+  };
+
+  const handleLogoutSetting = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
@@ -49,6 +62,9 @@ const SettingModal = () => {
                 <div className="ml-2" onClick={handleLengthSetting}>
                   <ToggleSwitch state={length} />
                 </div>
+              </div>
+              <div className="p-2" onClick={handleLogoutSetting}>
+                <FaDoorOpen style={{ fontSize: 48 }} />
               </div>
             </div>
           </div>
