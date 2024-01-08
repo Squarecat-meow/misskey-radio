@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { serverStore } from "../slices/MisskeySlice";
 
 const APILogin = () => {
   const [server, setServer] = useState("");
+  const [token, setToken] = useState("");
 
   const sessionId = uuidv4();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const authForm = `http://${server}/miauth/${sessionId}`;
   const hostname = window.location.host;
@@ -23,6 +30,17 @@ const APILogin = () => {
       "_self"
     );
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      const server = localStorage.getItem("server");
+      const token = localStorage.getItem("token");
+
+      dispatch(serverStore({ server: server, token: token }));
+
+      navigate("/mainpage");
+    }
+  }, []);
 
   return (
     <div>
