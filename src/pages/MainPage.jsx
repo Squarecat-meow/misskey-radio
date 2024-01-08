@@ -20,7 +20,7 @@ const MainPage = () => {
       <h1 className="text-center text-7xl font-extrabold text-green-600">
         미스키 라디오
       </h1>
-      <div className="flex">
+      <div className="lg:flex">
         <div className="flex flex-col items-center basis-1/3">
           <div className="flex items-center">
             <RadioComponent />
